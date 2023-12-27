@@ -1,0 +1,9 @@
+go 1.21.5
+
+use ./token
+
+use ./lexer
+
+use ./repl
+
+use ./main
