@@ -7,3 +7,7 @@ use ./lexer
 use ./repl
 
 use ./main
+
+use ./ast
+
+use ./parser
