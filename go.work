@@ -11,3 +11,7 @@ use ./main
 use ./ast
 
 use ./parser
+
+use ./object
+
+use ./evaluator
