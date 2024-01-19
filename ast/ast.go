@@ -272,6 +272,30 @@ func (b *Boolean) expressionNode()      {}
 func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 func (b *Boolean) String() string       { return b.Token.Literal }
 
+type ForWhileExpression struct {
+	Condition Expression
+	Body      *BlockStatement
+	Token     token.Token
+}
+
+func (few *ForWhileExpression) expressionNode()      {}
+func (few *ForWhileExpression) TokenLiteral() string { return few.Token.Literal }
+func (few *ForWhileExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("for")
+
+	out.WriteString("(")
+	out.WriteString(few.Condition.String())
+	out.WriteString(")")
+	out.WriteString(" ")
+	out.WriteString("{")
+	out.WriteString(few.Body.String())
+	out.WriteString("}")
+
+	return out.String()
+}
+
 type ForExpression struct {
 	Header []Expression
 	Body   *BlockStatement

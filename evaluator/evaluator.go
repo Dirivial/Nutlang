@@ -139,6 +139,12 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.IfExpression:
 		return evalIfExpression(node, env)
 
+	case *ast.ForWhileExpression:
+		return evalForWhileExpression(node, env)
+
+	case *ast.ForExpression:
+		return evalForExpression(node, env)
+
 	case *ast.ArrayLiteral:
 		elements := evalExpressions(node.Elements, env)
 		if len(elements) == 1 && isError(elements[0]) {
@@ -159,6 +165,60 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	}
 
 	return nil
+}
+
+func evalForExpression(fe *ast.ForExpression, env *object.Environment) object.Object {
+	var result object.Object
+
+	// First part of a for
+	Eval(fe.Header[0], env)
+
+	for {
+		header := Eval(fe.Header[1], env)
+		if isError(header) {
+			return header
+		}
+
+		if isTruthy(header) {
+			// Is this necessary?
+			Eval(fe.Header[2], env)
+
+			// Evaluate body (again)
+			result = Eval(fe.Body, env)
+		} else {
+			break
+		}
+	}
+
+	if result != nil {
+		return result
+	}
+	return NULL
+}
+
+func evalForWhileExpression(
+	few *ast.ForWhileExpression,
+	env *object.Environment,
+) object.Object {
+	var result object.Object
+
+	for {
+		header := Eval(few.Condition, env)
+		if isError(header) {
+			return header
+		}
+
+		if isTruthy(header) {
+			result = Eval(few.Body, env)
+		} else {
+			break
+		}
+	}
+
+	if result != nil {
+		return result
+	}
+	return NULL
 }
 
 func evalHashLiteral(

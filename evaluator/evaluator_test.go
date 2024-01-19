@@ -436,6 +436,27 @@ func TestBangOperator(t *testing.T) {
 	}
 }
 
+func TestForWhileExpressions(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{"for (false) { 10 }", nil},
+		{"let x = 5; for (x < 5) { 10 }", nil},
+		{"let x = 5; for (x < 6) { x = x + 1 }", 6},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		integer, ok := tt.expected.(int)
+		if ok {
+			testIntegerObject(t, evaluated, int64(integer))
+		} else {
+			testNullObject(t, evaluated)
+		}
+	}
+}
+
 func TestIfElseExpressions(t *testing.T) {
 	tests := []struct {
 		input    string

@@ -450,7 +450,11 @@ func (p *Parser) parseForExpression() ast.Expression {
 
 	expression.Body = p.parseBlockStatement()
 
-	return expression
+	if len(expression.Header) == 1 {
+		return &ast.ForWhileExpression{Token: expression.Token, Condition: expression.Header[0], Body: expression.Body}
+	} else {
+		return expression
+	}
 }
 
 func (p *Parser) parseIfExpression() ast.Expression {
