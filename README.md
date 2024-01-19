@@ -49,7 +49,7 @@ but still somewhat complete language
 - [x] Floats
 - [ ] structs/types (some way to group items together)
 - [x] <= and >=
-- [ ] while/for loop
+- [ ] for(& while) loop
 - [ ] Scan/input/read (input from STDIN)
 
 #### Arrays

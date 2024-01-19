@@ -31,6 +31,9 @@ if (5 < 10) {
 {"foo": "bar"}
 let pi = 3.14;
 let leq = 2 <= 5;
+for (a < 10) {
+  a = a + 1;
+}
 `
 
 	tests := []struct {
@@ -133,6 +136,20 @@ let leq = 2 <= 5;
 		{token.ASSIGN, "="},
 		{token.FLOAT, "2 <= 5"},
 		{token.SEMICOLON, ";"},
+		{token.FOR, "for"},
+		{token.LPAREN, "("},
+		{token.IDENT, "a"},
+		{token.LT, "<"},
+		{token.INT, "5"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.IDENT, "a"},
+		{token.ASSIGN, "="},
+		{token.IDENT, "a"},
+		{token.PLUS, "+"},
+		{token.INT, "1"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
 		{token.EOF, ""},
 	}
 
