@@ -28,6 +28,10 @@ func TestAssignment(t *testing.T) {
 			"let a = 0; a = NULL; a",
 			nil,
 		},
+		{
+			"let a = 0; let b = 2; a = b; a",
+			2,
+		},
 	}
 
 	for _, tt := range tests {
