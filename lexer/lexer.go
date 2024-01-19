@@ -97,11 +97,15 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readNumber()
 			// Check we stopped on "." -> FLOAT
 			if l.ch == '.' {
-				tok.Type = token.FLOAT
 				// Advance
 				l.readChar()
-				// Concat the rest of the floating point number
-				tok.Literal = tok.Literal + "." + l.readNumber()
+				if isDigit(l.ch) {
+					// Concat the rest of the floating point number
+					tok.Literal = tok.Literal + "." + l.readNumber()
+					tok.Type = token.FLOAT
+				} else {
+					return newToken(token.ILLEGAL, l.ch)
+				}
 			} else {
 				tok.Type = token.INT
 			}
