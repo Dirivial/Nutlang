@@ -31,3 +31,38 @@ The number of built-in functions are relatively sparse.
 - first
 - last
 - rest (copy array, without the first element)
+
+### Things I want to add
+
+This is a list of things I feel are missing for it to be considered a limited,
+but still somewhat complete language
+
+#### General features
+
+[ ] File IO
+[ ] Floats
+[ ] structs/types (some way to group items together)
+[ ] <= and >=
+[ ] while/for loop
+
+#### Arrays
+
+[ ] Insert
+[ ] Remove
+[ ] Shift
+[ ] Unshift
+
+#### Integers/Floats
+
+[ ] Random
+[ ] Min
+[ ] Max
+[ ] Modulo
+
+#### Strings
+
+[ ] split
+[ ] trim
+[ ] startsWith
+[ ] endsWith
+[ ] includes
