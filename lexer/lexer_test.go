@@ -30,6 +30,7 @@ if (5 < 10) {
 [1, 2];
 {"foo": "bar"}
 let pi = 3.14;
+let leq = 2 <= 5;
 `
 
 	tests := []struct {
@@ -126,6 +127,11 @@ let pi = 3.14;
 		{token.IDENT, "pi"},
 		{token.ASSIGN, "="},
 		{token.FLOAT, "3.14"},
+		{token.SEMICOLON, ";"},
+		{token.LET, "let"},
+		{token.IDENT, "leq"},
+		{token.ASSIGN, "="},
+		{token.FLOAT, "2 <= 5"},
 		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}

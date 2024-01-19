@@ -46,9 +46,9 @@ but still somewhat complete language
   - [x] Hashes
   - [x] Integers
 - [ ] File IO
-- [ ] Floats
+- [x] Floats
 - [ ] structs/types (some way to group items together)
-- [ ] <= and >=
+- [x] <= and >=
 - [ ] while/for loop
 - [ ] Scan/input/read (input from STDIN)
 

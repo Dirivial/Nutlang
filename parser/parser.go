@@ -14,13 +14,14 @@ const (
 	OR
 	AND
 	ASSIGN
-	EQUALS      // ==
-	LESSGREATER // > or <
-	SUM         // +
-	PRODUCT     // *
-	PREFIX      // -X or !X
-	CALL        // myFunction(X)
-	INDEX       // X[Y]
+	EQUALS           // ==
+	LESSGREATEREQUAL // <= or >=
+	LESSGREATER      // > or <
+	SUM              // +
+	PRODUCT          // *
+	PREFIX           // -X or !X
+	CALL             // myFunction(X)
+	INDEX            // X[Y]
 )
 
 var precedences = map[token.TokenType]int{
@@ -30,6 +31,8 @@ var precedences = map[token.TokenType]int{
 	token.ASSIGN:   ASSIGN,
 	token.EQ:       EQUALS,
 	token.NOT_EQ:   EQUALS,
+	token.LTE:      LESSGREATEREQUAL,
+	token.GTE:      LESSGREATEREQUAL,
 	token.LT:       LESSGREATER,
 	token.GT:       LESSGREATER,
 	token.PLUS:     SUM,
@@ -86,6 +89,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
 	p.registerInfix(token.LT, p.parseInfixExpression)
 	p.registerInfix(token.GT, p.parseInfixExpression)
+	p.registerInfix(token.LTE, p.parseInfixExpression)
+	p.registerInfix(token.GTE, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
 
