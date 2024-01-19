@@ -77,6 +77,17 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 				} else {
 					return newError("cannot index array with %#v", index)
 				}
+			} else if hash, ok := obj.(*object.Hash); ok {
+				key := Eval(ie.Index, env)
+				if isError(key) {
+					return key
+				}
+				if hashKey, ok := key.(object.Hashable); ok {
+					hashed := hashKey.HashKey()
+					hash.Pairs[hashed] = object.HashPair{Key: key, Value: val}
+				} else {
+					return newError("cannot index hash with %T", key)
+				}
 			} else {
 				return newError("object type %T does not support item assignment", obj)
 			}

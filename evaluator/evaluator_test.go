@@ -44,6 +44,22 @@ func TestAssignment(t *testing.T) {
 			"let a = [1, 2, 3]; let b = 2; a[0] = b; a",
 			[]int{2, 2, 3},
 		},
+		{
+			"let a = {1: true}; a[1] = false; a[1]",
+			false,
+		},
+		{
+			"let a = {1: true, 2: true}; a[1] = false; a[1]",
+			false,
+		},
+		{
+			"let a = {\"test\": true}; a[\"test\"] = false; a[\"test\"]",
+			false,
+		},
+		{
+			"let a = {1: true}; a[2] = 3; a[2]",
+			3,
+		},
 	}
 
 	for _, tt := range tests {
