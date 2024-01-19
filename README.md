@@ -31,6 +31,7 @@ The number of built-in functions are relatively sparse.
 - first
 - last
 - rest (copy array, without the first element)
+- puts (print to STDOUT)
 
 ### Things I want to add
 
@@ -39,6 +40,10 @@ but still somewhat complete language
 
 #### General features
 
+- [x] Value Assignment (meaning re-assignment, after let statement)
+  - [x] Arrays
+  - [x] Hashes
+  - [x] Integers
 - [ ] File IO
 - [ ] Floats
 - [ ] structs/types (some way to group items together)
@@ -47,6 +52,7 @@ but still somewhat complete language
 
 #### Arrays
 
+- [x] Pop
 - [ ] Insert
 - [ ] Remove
 - [ ] Shift
