@@ -2,15 +2,16 @@
 
 The nuttiest of langs.
 
-I am following along a book for [Writing An Interpreter In Go](https://interpreterbook.com/).
+Base code from [Writing An Interpreter In Go](https://interpreterbook.com/).
+You might recognize Monkey Language or similar names,
+but I wanted to give it my own name.
 
-The goal is to tweak it a bit afterwards to my liking :)
-(also, I would like to get it far enough to solve a couple of leetcode,
-or advent of code, problems comfortably)
+The goal is to improve the language far enough to solve a couple of leetcode
+or advent of code problems, comfortably.
 
 ## Features
 
-Currently the language supports
+After following the book I ended up with these features:
 
 - integers
 - booleans
