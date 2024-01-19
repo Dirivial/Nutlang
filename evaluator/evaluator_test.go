@@ -16,15 +16,37 @@ func TestAssignment(t *testing.T) {
 			"let a = 0; a = 1; a",
 			1,
 		},
+		{
+			"let a = [1, 2]; a = 2; a",
+			2,
+		},
+		{
+			"let a = 0; a = [1, 2]; a",
+			[]int{1, 2},
+		},
+		{
+			"let a = 0; a = NULL; a",
+			nil,
+		},
 	}
 
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
-		integer, ok := tt.expected.(int)
-		if ok {
-			testIntegerObject(t, evaluated, int64(integer))
-		} else {
-			testNullObject(t, evaluated)
+
+		switch expected := tt.expected.(type) {
+		case int:
+			testIntegerObject(t, evaluated, int64(expected))
+		case string:
+			errObj, ok := evaluated.(*object.Error)
+			if !ok {
+				t.Errorf("object is not Error. got=%T (%+v)",
+					evaluated, evaluated)
+				continue
+			}
+			if errObj.Message != expected {
+				t.Errorf("wrong error message. expected=%q, got=%q",
+					expected, errObj.Message)
+			}
 		}
 	}
 }
