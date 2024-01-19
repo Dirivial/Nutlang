@@ -27,8 +27,9 @@ if (5 < 10) {
 10 != 9;
 "foobar"
 "foo bar"
-[1, 2]
+[1, 2];
 {"foo": "bar"}
+let pi = 3.14;
 `
 
 	tests := []struct {
@@ -121,6 +122,11 @@ if (5 < 10) {
 		{token.COLON, ":"},
 		{token.STRING, "bar"},
 		{token.RBRACE, "}"},
+		{token.LET, "let"},
+		{token.IDENT, "pi"},
+		{token.ASSIGN, "="},
+		{token.FLOAT, "3.14"},
+		{token.SEMICOLON, ";"},
 		{token.EOF, ""},
 	}
 
