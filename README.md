@@ -39,30 +39,30 @@ but still somewhat complete language
 
 #### General features
 
-[ ] File IO
-[ ] Floats
-[ ] structs/types (some way to group items together)
-[ ] <= and >=
-[ ] while/for loop
+- [ ] File IO
+- [ ] Floats
+- [ ] structs/types (some way to group items together)
+- [ ] <= and >=
+- [ ] while/for loop
 
 #### Arrays
 
-[ ] Insert
-[ ] Remove
-[ ] Shift
-[ ] Unshift
+- [ ] Insert
+- [ ] Remove
+- [ ] Shift
+- [ ] Unshift
 
 #### Integers/Floats
 
-[ ] Random
-[ ] Min
-[ ] Max
-[ ] Modulo
+- [ ] Random
+- [ ] Min
+- [ ] Max
+- [ ] Modulo
 
 #### Strings
 
-[ ] split
-[ ] trim
-[ ] startsWith
-[ ] endsWith
-[ ] includes
+- [ ] split
+- [ ] trim
+- [ ] startsWith
+- [ ] endsWith
+- [ ] includes
