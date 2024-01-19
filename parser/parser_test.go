@@ -600,22 +600,22 @@ func TestBooleanExpression(t *testing.T) {
 }
 
 func TestForExpression(t *testing.T) {
-	input := `let x = 0;for (x = 1; x < y; x = x + 1) { x; }`
+	input := `for (let x = 1; x < y; x = x + 1) { x; }`
 
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
-	if len(program.Statements) != 2 {
+	if len(program.Statements) != 1 {
 		t.Fatalf("program.Statements does not contain %d statements. got=%d\n",
-			2, len(program.Statements))
+			1, len(program.Statements))
 	}
 
-	stmt, ok := program.Statements[1].(*ast.ExpressionStatement)
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
 	if !ok {
-		t.Fatalf("program.Statements[1] is not ast.ExpressionStatement. got=%T",
-			program.Statements[1])
+		t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
+			program.Statements[0])
 	}
 
 	exp, ok := stmt.Expression.(*ast.ForExpression)
@@ -624,12 +624,10 @@ func TestForExpression(t *testing.T) {
 			stmt.Expression)
 	}
 
-	if len(exp.Header) != 3 {
-		t.Fatalf("exp.Header length is not 3. got=%T",
-			len(exp.Header))
+	if !testLetStatement(t, exp.Statement, "x") {
+		return
 	}
-
-	if !testInfixExpression(t, exp.Header[1], "x", "<", "y") {
+	if !testInfixExpression(t, exp.Condition, "x", "<", "y") {
 		return
 	}
 

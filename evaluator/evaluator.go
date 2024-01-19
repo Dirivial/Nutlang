@@ -170,21 +170,21 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 func evalForExpression(fe *ast.ForExpression, env *object.Environment) object.Object {
 	var result object.Object
 
-	// First part of a for
-	Eval(fe.Header[0], env)
+	// First part of a for should run once
+	Eval(fe.Statement, env)
 
 	for {
-		header := Eval(fe.Header[1], env)
+		header := Eval(fe.Condition, env)
 		if isError(header) {
 			return header
 		}
 
 		if isTruthy(header) {
-			// Is this necessary?
-			Eval(fe.Header[2], env)
-
 			// Evaluate body (again)
 			result = Eval(fe.Body, env)
+
+			// Is this necessary?
+			Eval(fe.Expression, env)
 		} else {
 			break
 		}

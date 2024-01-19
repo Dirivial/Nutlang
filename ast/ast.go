@@ -297,9 +297,11 @@ func (few *ForWhileExpression) String() string {
 }
 
 type ForExpression struct {
-	Header []Expression
-	Body   *BlockStatement
-	Token  token.Token
+	Statement  Statement
+	Condition  Expression
+	Expression Expression
+	Body       *BlockStatement
+	Token      token.Token
 }
 
 func (fe *ForExpression) expressionNode()      {}
@@ -307,15 +309,10 @@ func (fe *ForExpression) TokenLiteral() string { return fe.Token.Literal }
 func (fe *ForExpression) String() string {
 	var out bytes.Buffer
 
-	header := []string{}
-	for _, el := range fe.Header {
-		header = append(header, el.String())
-	}
-
 	out.WriteString("for")
 
 	out.WriteString("(")
-	out.WriteString(strings.Join(header, ", "))
+	out.WriteString(fe.Statement.String())
 	out.WriteString(")")
 	out.WriteString(" ")
 	out.WriteString("{")

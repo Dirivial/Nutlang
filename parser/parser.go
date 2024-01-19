@@ -440,7 +440,7 @@ func (p *Parser) parseForExpression() ast.Expression {
 
 	p.nextToken()
 
-	headerOrCond := p.parseExpression(LOWEST)
+	headerOrCond := p.parseStatement()
 
 	if p.peekTokenIs(token.RPAREN) {
 
@@ -450,26 +450,27 @@ func (p *Parser) parseForExpression() ast.Expression {
 		}
 
 		body := p.parseBlockStatement()
-		return &ast.ForWhileExpression{Token: tok, Condition: headerOrCond, Body: body}
-	} else if p.expectPeek(token.SEMICOLON) {
+		cond := headerOrCond.(*ast.ExpressionStatement)
+		return &ast.ForWhileExpression{Token: tok, Condition: cond.Expression, Body: body}
+	} else if p.curTokenIs(token.SEMICOLON) {
+
+		expr := &ast.ForExpression{Token: tok, Statement: headerOrCond}
 
 		p.nextToken()
-		expressions := []ast.Expression{}
-		expressions = append(expressions, headerOrCond)
-		expressions = append(expressions, p.parseExpression(LOWEST))
+		expr.Condition = p.parseExpression(LOWEST)
 		if !p.expectPeek(token.SEMICOLON) {
 			return nil
 		}
 
 		p.nextToken()
-		expressions = append(expressions, p.parseExpression(LOWEST))
+		expr.Expression = p.parseExpression(LOWEST)
 		p.nextToken()
 		if !p.expectPeek(token.LBRACE) {
 			return nil
 		}
 
-		body := p.parseBlockStatement()
-		return &ast.ForExpression{Token: tok, Header: expressions, Body: body}
+		expr.Body = p.parseBlockStatement()
+		return expr
 	}
 	return nil
 }
