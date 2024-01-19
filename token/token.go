@@ -12,26 +12,33 @@ const (
 	EOF     = "EOF"
 
 	// Identifiers + literals
-	IDENT = "IDENT" // add, foobar, x, y, ...
-	INT   = "INT"
+	IDENT   = "IDENT" // add, foobar, x, y, ...
+	INT     = "INT"
+	COMMENT = "COMMENT"
 
 	// Operators
+	BIND     = ":="
 	ASSIGN   = "="
 	PLUS     = "+"
 	MINUS    = "-"
 	BANG     = "!"
 	ASTERISK = "*"
 	SLASH    = "/"
+	MODULO   = "%"
 
-	LT = "<"
-	GT = ">"
+	LT  = "<"
+	LTE = "<="
+	GT  = ">"
+	GTE = ">="
 
-	// Two ch
 	EQ     = "=="
 	NOT_EQ = "!="
+	AND    = "&&"
+	OR     = "||"
 
 	// Delimiters
 	COMMA     = ","
+	DOT       = "."
 	COLON     = ":"
 	SEMICOLON = ";"
 	LPAREN    = "("

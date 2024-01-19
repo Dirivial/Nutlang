@@ -7,6 +7,28 @@ import (
 	"testing"
 )
 
+func TestAssignment(t *testing.T) {
+	tests := []struct {
+		input    string
+		expected interface{}
+	}{
+		{
+			"let a = 0; a = 1; a",
+			1,
+		},
+	}
+
+	for _, tt := range tests {
+		evaluated := testEval(tt.input)
+		integer, ok := tt.expected.(int)
+		if ok {
+			testIntegerObject(t, evaluated, int64(integer))
+		} else {
+			testNullObject(t, evaluated)
+		}
+	}
+}
+
 func TestHashLiterals(t *testing.T) {
 	input := `let two = "two";
     {

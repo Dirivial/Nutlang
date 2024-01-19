@@ -11,6 +11,9 @@ import (
 const (
 	_ int = iota
 	LOWEST
+	OR
+	AND
+	ASSIGN
 	EQUALS      // ==
 	LESSGREATER // > or <
 	SUM         // +
@@ -21,6 +24,10 @@ const (
 )
 
 var precedences = map[token.TokenType]int{
+	token.OR:       OR,
+	token.AND:      AND,
+	token.BIND:     ASSIGN,
+	token.ASSIGN:   ASSIGN,
 	token.EQ:       EQUALS,
 	token.NOT_EQ:   EQUALS,
 	token.LT:       LESSGREATER,
@@ -80,7 +87,28 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
+
+	p.registerInfix(token.ASSIGN, p.parseAssignmentExpression)
+
 	return p
+}
+
+func (p *Parser) parseAssignmentExpression(exp ast.Expression) ast.Expression {
+	switch node := exp.(type) {
+	case *ast.Identifier, *ast.IndexExpression:
+	default:
+		msg := fmt.Sprintf("expected identifier or index expression on left but got %T %#v", node, exp)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
+
+	ae := &ast.AssignmentExpression{Token: p.curToken, Left: exp}
+
+	p.nextToken()
+
+	ae.Value = p.parseExpression(LOWEST)
+
+	return ae
 }
 
 func (p *Parser) parseHashLiteral() ast.Expression {

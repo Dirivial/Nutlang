@@ -43,6 +43,26 @@ func (p *Program) String() string {
 	return out.String()
 }
 
+type AssignmentExpression struct {
+	Token token.Token
+	Left  Expression
+	Value Expression
+}
+
+func (ae *AssignmentExpression) expressionNode()      {}
+func (ae *AssignmentExpression) TokenLiteral() string { return ae.Token.Literal }
+func (ae *AssignmentExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("(")
+	out.WriteString(ae.Left.String())
+	out.WriteString(ae.Token.Literal)
+	out.WriteString(ae.Value.String())
+	out.WriteString(")")
+
+	return out.String()
+}
+
 type HashLiteral struct {
 	Token token.Token // the '{' token
 	Pairs map[Expression]Expression

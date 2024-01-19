@@ -50,6 +50,22 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		}
 		return &object.ReturnValue{Value: val}
 
+	case *ast.AssignmentExpression:
+		left := Eval(node.Left, env)
+		if isError(left) {
+			return left
+		}
+		val := Eval(node.Value, env)
+		if isError(val) {
+			return val
+		}
+		if ident, ok := node.Left.(*ast.Identifier); ok {
+			env.Set(ident.Value, val)
+		} else {
+			return newError("expected identifier or index expression got=%T", left)
+		}
+		return val
+
 	case *ast.LetStatement:
 		val := Eval(node.Value, env)
 		if isError(val) {
