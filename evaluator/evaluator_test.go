@@ -32,6 +32,18 @@ func TestAssignment(t *testing.T) {
 			"let a = 0; let b = 2; a = b; a",
 			2,
 		},
+		{
+			"let a = [1, 2]; a[0] = 10; a[0]",
+			10,
+		},
+		{
+			"let a = [1, 2, 3]; let b = 2; a[0] = b; a[0]",
+			2,
+		},
+		{
+			"let a = [1, 2, 3]; let b = 2; a[0] = b; a",
+			[]int{2, 2, 3},
+		},
 	}
 
 	for _, tt := range tests {
