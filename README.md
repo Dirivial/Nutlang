@@ -50,6 +50,7 @@ but still somewhat complete language
 - [ ] structs/types (some way to group items together)
 - [ ] <= and >=
 - [ ] while/for loop
+- [ ] Scan/input/read (input from STDIN)
 
 #### Arrays
 
