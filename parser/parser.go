@@ -432,29 +432,46 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 }
 
 func (p *Parser) parseForExpression() ast.Expression {
-	expression := &ast.ForExpression{Token: p.curToken}
+	tok := p.curToken
 
 	if !p.expectPeek(token.LPAREN) {
 		return nil
 	}
 
-	expression.Header = p.parseExpressionList(token.RPAREN)
+	p.nextToken()
 
-	if len(expression.Header) != 1 && len(expression.Header) != 3 {
-		return nil
+	headerOrCond := p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(token.RPAREN) {
+
+		p.nextToken()
+		if !p.expectPeek(token.LBRACE) {
+			return nil
+		}
+
+		body := p.parseBlockStatement()
+		return &ast.ForWhileExpression{Token: tok, Condition: headerOrCond, Body: body}
+	} else if p.expectPeek(token.SEMICOLON) {
+
+		p.nextToken()
+		expressions := []ast.Expression{}
+		expressions = append(expressions, headerOrCond)
+		expressions = append(expressions, p.parseExpression(LOWEST))
+		if !p.expectPeek(token.SEMICOLON) {
+			return nil
+		}
+
+		p.nextToken()
+		expressions = append(expressions, p.parseExpression(LOWEST))
+		p.nextToken()
+		if !p.expectPeek(token.LBRACE) {
+			return nil
+		}
+
+		body := p.parseBlockStatement()
+		return &ast.ForExpression{Token: tok, Header: expressions, Body: body}
 	}
-
-	if !p.expectPeek(token.LBRACE) {
-		return nil
-	}
-
-	expression.Body = p.parseBlockStatement()
-
-	if len(expression.Header) == 1 {
-		return &ast.ForWhileExpression{Token: expression.Token, Condition: expression.Header[0], Body: expression.Body}
-	} else {
-		return expression
-	}
+	return nil
 }
 
 func (p *Parser) parseIfExpression() ast.Expression {

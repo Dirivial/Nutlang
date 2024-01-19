@@ -599,61 +599,56 @@ func TestBooleanExpression(t *testing.T) {
 	}
 }
 
-/*
-	func TestForExpression(t *testing.T) {
-		input := `for (let x = 0, x < y, x = x + 1) { x; }`
+func TestForExpression(t *testing.T) {
+	input := `let x = 0;for (x = 1; x < y; x = x + 1) { x; }`
 
-		l := lexer.New(input)
-		p := New(l)
-		program := p.ParseProgram()
-		checkParserErrors(t, p)
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
 
-		if len(program.Statements) != 1 {
-			t.Fatalf("program.Statements does not contain %d statements. got=%d\n",
-				1, len(program.Statements))
-		}
-
-		stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
-		if !ok {
-			t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
-				program.Statements[0])
-		}
-
-		exp, ok := stmt.Expression.(*ast.ForExpression)
-		if !ok {
-			t.Fatalf("stmt.Expression is not ast.ForExpression. got=%T",
-				stmt.Expression)
-		}
-
-		if len(exp.Header) != 3 {
-			t.Fatalf("exp.Header length is not 3. got=%T",
-				len(exp.Header))
-		}
-
-		letstmt, ok := exp.Header[0].(*ast.LetStatement)
-		if !testLetStatement(t, letstmt, "x") {
-			return
-		}
-		if !testInfixExpression(t, exp.Header[1], "x", "<", "y") {
-			return
-		}
-
-		if len(exp.Body.Statements) != 1 {
-			t.Errorf("Body is not 1 statements. got=%d\n",
-				len(exp.Body.Statements))
-		}
-
-		consequence, ok := exp.Body.Statements[0].(*ast.ExpressionStatement)
-		if !ok {
-			t.Fatalf("Statements[0] is not ast.ExpressionStatement. got=%T",
-				exp.Body.Statements[0])
-		}
-
-		if !testLiteralExpression(t, consequence.Expression, "x") {
-			return
-		}
+	if len(program.Statements) != 2 {
+		t.Fatalf("program.Statements does not contain %d statements. got=%d\n",
+			2, len(program.Statements))
 	}
-*/
+
+	stmt, ok := program.Statements[1].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[1] is not ast.ExpressionStatement. got=%T",
+			program.Statements[1])
+	}
+
+	exp, ok := stmt.Expression.(*ast.ForExpression)
+	if !ok {
+		t.Fatalf("stmt.Expression is not ast.ForExpression. got=%T",
+			stmt.Expression)
+	}
+
+	if len(exp.Header) != 3 {
+		t.Fatalf("exp.Header length is not 3. got=%T",
+			len(exp.Header))
+	}
+
+	if !testInfixExpression(t, exp.Header[1], "x", "<", "y") {
+		return
+	}
+
+	if len(exp.Body.Statements) != 1 {
+		t.Errorf("Body is not 1 statements. got=%d\n",
+			len(exp.Body.Statements))
+	}
+
+	consequence, ok := exp.Body.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("Statements[0] is not ast.ExpressionStatement. got=%T",
+			exp.Body.Statements[0])
+	}
+
+	if !testLiteralExpression(t, consequence.Expression, "x") {
+		return
+	}
+}
+
 func TestForWhileExpression(t *testing.T) {
 	input := `for (x < y) { x; }`
 
