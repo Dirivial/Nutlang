@@ -522,6 +522,10 @@ func TestErrorHandling(t *testing.T) {
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},
 		{
+			"let a = [1, 2]; a[\"nice\"] = 2; a",
+			"index operator not supported: ARRAY",
+		},
+		{
 			"if (10 > 1) { true + false; }",
 			"unknown operator: BOOLEAN + BOOLEAN",
 		},

@@ -61,6 +61,25 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		}
 		if ident, ok := node.Left.(*ast.Identifier); ok {
 			env.Set(ident.Value, val)
+		} else if ie, ok := node.Left.(*ast.IndexExpression); ok {
+			obj := Eval(ie.Left, env)
+			if isError(obj) {
+				return obj
+			}
+
+			if array, ok := obj.(*object.Array); ok {
+				index := Eval(ie.Index, env)
+				if isError(index) {
+					return index
+				}
+				if idx, ok := index.(*object.Integer); ok {
+					array.Elements[idx.Value] = val
+				} else {
+					return newError("cannot index array with %#v", index)
+				}
+			} else {
+				return newError("object type %T does not support item assignment", obj)
+			}
 		} else {
 			return newError("expected identifier or index expression got=%T", left)
 		}
