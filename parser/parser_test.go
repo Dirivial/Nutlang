@@ -599,6 +599,56 @@ func TestBooleanExpression(t *testing.T) {
 	}
 }
 
+func TestForWhileExpression(t *testing.T) {
+	input := `for (x < y) { x; }`
+
+	l := lexer.New(input)
+	p := New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	if len(program.Statements) != 1 {
+		t.Fatalf("program.Statements does not contain %d statements. got=%d\n",
+			1, len(program.Statements))
+	}
+
+	stmt, ok := program.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("program.Statements[0] is not ast.ExpressionStatement. got=%T",
+			program.Statements[0])
+	}
+
+	exp, ok := stmt.Expression.(*ast.ForExpression)
+	if !ok {
+		t.Fatalf("stmt.Expression is not ast.ForExpression. got=%T",
+			stmt.Expression)
+	}
+
+	if len(exp.Header) != 1 {
+		t.Fatalf("exp.Header length is not 1. got=%T",
+			len(exp.Header))
+	}
+
+	if !testInfixExpression(t, exp.Header[0], "x", "<", "y") {
+		return
+	}
+
+	if len(exp.Body.Statements) != 1 {
+		t.Errorf("Body is not 1 statements. got=%d\n",
+			len(exp.Body.Statements))
+	}
+
+	consequence, ok := exp.Body.Statements[0].(*ast.ExpressionStatement)
+	if !ok {
+		t.Fatalf("Statements[0] is not ast.ExpressionStatement. got=%T",
+			exp.Body.Statements[0])
+	}
+
+	if !testLiteralExpression(t, consequence.Expression, "x") {
+		return
+	}
+}
+
 func TestIfExpression(t *testing.T) {
 	input := `if (x < y) { x }`
 

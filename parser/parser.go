@@ -78,6 +78,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerPrefix(token.LBRACKET, p.parseArrayLiteral)
 	p.registerPrefix(token.LBRACE, p.parseHashLiteral)
 	p.registerPrefix(token.FLOAT, p.parseFloatLiteral)
+	p.registerPrefix(token.FOR, p.parseForExpression)
 
 	// infixParseFn
 	p.infixParseFns = make(map[token.TokenType]infixParseFn)
@@ -428,6 +429,28 @@ func (p *Parser) parseGroupedExpression() ast.Expression {
 	}
 
 	return exp
+}
+
+func (p *Parser) parseForExpression() ast.Expression {
+	expression := &ast.ForExpression{Token: p.curToken}
+
+	if !p.expectPeek(token.LPAREN) {
+		return nil
+	}
+
+	expression.Header = p.parseExpressionList(token.RPAREN)
+
+	if len(expression.Header) != 1 && len(expression.Header) != 3 {
+		return nil
+	}
+
+	if !p.expectPeek(token.LBRACE) {
+		return nil
+	}
+
+	expression.Body = p.parseBlockStatement()
+
+	return expression
 }
 
 func (p *Parser) parseIfExpression() ast.Expression {
