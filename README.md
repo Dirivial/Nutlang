@@ -62,7 +62,7 @@ but still somewhat complete language
 
 #### Integers/Floats
 
-- [ ] Random
+- [x] Random
 - [ ] Min
 - [ ] Max
 - [ ] Modulo

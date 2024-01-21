@@ -3,6 +3,7 @@ package evaluator
 import (
 	"Nutlang/object"
 	"fmt"
+	mrand "math/rand"
 )
 
 var builtins = map[string]*object.Builtin{
@@ -21,6 +22,23 @@ var builtins = map[string]*object.Builtin{
 			default:
 				return newError("argument to `len` not supported, got %s",
 					args[0].Type())
+			}
+		},
+	},
+	"rand": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) == 0 {
+				return &object.Integer{Value: int64(mrand.Int())}
+			} else if len(args) == 1 {
+				if args[0].Type() == object.INTEGER_OBJ {
+					arg := args[0].(*object.Integer).Value
+					return &object.Integer{Value: int64(mrand.Int63n(arg))}
+				}
+				return newError("argument to `first` must be INTEGER, got %s",
+					args[0].Type())
+			} else {
+				return newError("wrong number of arguments. got=%d, want=0 or 1",
+					len(args))
 			}
 		},
 	},
@@ -99,7 +117,7 @@ var builtins = map[string]*object.Builtin{
 			arr := args[0].(*object.Array)
 			length := len(arr.Elements)
 
-			newElements := make([]object.Object, length+1, length+1)
+			newElements := make([]object.Object, length+1)
 			copy(newElements, arr.Elements)
 			newElements[length] = args[1]
 
@@ -125,7 +143,7 @@ var builtins = map[string]*object.Builtin{
 			}
 			if length > 0 {
 
-				newElements := make([]object.Object, length-1, length-1)
+				newElements := make([]object.Object, length-1)
 				copy(newElements, arr.Elements[0:length-1])
 
 				return &object.Array{Elements: newElements}
