@@ -25,6 +25,51 @@ var builtins = map[string]*object.Builtin{
 			}
 		},
 	},
+
+	"min": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=2",
+					len(args))
+			}
+
+			switch arg := args[0].(type) {
+			case *object.Integer:
+				switch arg2 := args[1].(type) {
+				case *object.Integer:
+					return &object.Integer{Value: min(arg.Value, arg2.Value)}
+				default:
+					return newError("argument 2 to `max` must be INTEGER, got %s",
+						args[0].Type())
+				}
+			default:
+				return newError("argument 1 to `max` must be INTEGER, got %s",
+					args[0].Type())
+			}
+		},
+	},
+	"max": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=2",
+					len(args))
+			}
+
+			switch arg := args[0].(type) {
+			case *object.Integer:
+				switch arg2 := args[1].(type) {
+				case *object.Integer:
+					return &object.Integer{Value: max(arg.Value, arg2.Value)}
+				default:
+					return newError("argument 2 to `max` must be INTEGER, got %s",
+						args[0].Type())
+				}
+			default:
+				return newError("argument 1 to `max` must be INTEGER, got %s",
+					args[0].Type())
+			}
+		},
+	},
 	"rand": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) == 0 {
@@ -160,4 +205,18 @@ var builtins = map[string]*object.Builtin{
 			return NULL
 		},
 	},
+}
+
+func min(a, b int64) int64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
 }

@@ -63,8 +63,8 @@ but still somewhat complete language
 #### Integers/Floats
 
 - [x] Random
-- [ ] Min
-- [ ] Max
+- [x] Min
+- [x] Max
 - [ ] Modulo
 
 #### Strings
