@@ -57,7 +57,7 @@ but still somewhat complete language
 - [x] Pop
 - [ ] Insert
 - [ ] Remove
-- [ ] Shift
+- [x] Shift
 - [ ] Unshift
 
 #### Integers/Floats
