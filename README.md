@@ -79,3 +79,4 @@ but still somewhat complete language
 - [ ] startsWith
 - [ ] endsWith
 - [x] includes
+- [ ] escaped chars
