@@ -557,6 +557,18 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`unshift()`, "wrong number of arguments. got=0, want=2"},
 		{`unshift([1])`, "wrong number of arguments. got=1, want=2"},
 		{`unshift(1, 2)`, "argument 1 to `unshift` must be ARRAY, got INTEGER"},
+
+		{`min(1, 1)`, 1},
+		{`min(2, 1)`, 1},
+		{`min()`, "wrong number of arguments. got=0, want=2"},
+		{`min([1], 2)`, "argument 1 to `min` must be INTEGER, got ARRAY"},
+		{`min(1, [1])`, "argument 2 to `min` must be INTEGER, got ARRAY"},
+
+		{`max(1, 1)`, 1},
+		{`max(1, 2)`, 2},
+		{`max()`, "wrong number of arguments. got=0, want=2"},
+		{`max([1], 2)`, "argument 1 to `max` must be INTEGER, got ARRAY"},
+		{`max(1, [1])`, "argument 2 to `max` must be INTEGER, got ARRAY"},
 	}
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)

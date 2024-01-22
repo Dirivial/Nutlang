@@ -39,11 +39,11 @@ var builtins = map[string]*object.Builtin{
 				case *object.Integer:
 					return &object.Integer{Value: min(arg.Value, arg2.Value)}
 				default:
-					return newError("argument 2 to `max` must be INTEGER, got %s",
-						args[0].Type())
+					return newError("argument 2 to `min` must be INTEGER, got %s",
+						args[1].Type())
 				}
 			default:
-				return newError("argument 1 to `max` must be INTEGER, got %s",
+				return newError("argument 1 to `min` must be INTEGER, got %s",
 					args[0].Type())
 			}
 		},
@@ -62,7 +62,7 @@ var builtins = map[string]*object.Builtin{
 					return &object.Integer{Value: max(arg.Value, arg2.Value)}
 				default:
 					return newError("argument 2 to `max` must be INTEGER, got %s",
-						args[0].Type())
+						args[1].Type())
 				}
 			default:
 				return newError("argument 1 to `max` must be INTEGER, got %s",
