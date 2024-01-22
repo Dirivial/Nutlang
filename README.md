@@ -46,8 +46,6 @@ but still somewhat complete language
   - [x] Hashes
   - [x] Integers
 - [ ] File IO
-  - [x] Open files
-  - [ ] Close files
   - [x] Read file content
   - [ ] Write to file
 - [x] Floats

@@ -27,26 +27,6 @@ var builtins = map[string]*object.Builtin{
 			}
 		},
 	},
-	"openFile": {
-		Fn: func(args ...object.Object) object.Object {
-			if len(args) != 1 {
-				return newError("wrong number of arguments. got=%d, want=1",
-					len(args))
-			}
-
-			switch arg := args[0].(type) {
-			case *object.String:
-				fd, err := os.Open(arg.Value)
-				if err != nil {
-					return newError("error on open file, %s", err)
-				}
-				return &object.FileDescriptor{Value: fd}
-			default:
-				return newError("argument to `len` not supported, got %s",
-					args[0].Type())
-			}
-		},
-	},
 	"readFile": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -61,8 +41,6 @@ var builtins = map[string]*object.Builtin{
 					return newError("error on read file, %s", err)
 				}
 				return &object.String{Value: string(fd)}
-			case *object.FileDescriptor:
-				return newError("Not handled yet.")
 			default:
 				return newError("argument to `readFile` not supported, got %s",
 					args[0].Type())
