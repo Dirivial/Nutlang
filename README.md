@@ -69,6 +69,8 @@ but still somewhat complete language
 - [x] Min
 - [x] Max
 - [ ] Modulo
+- [ ] &&
+- [ ] ||
 
 #### Strings
 
