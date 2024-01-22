@@ -71,6 +71,10 @@ func (l *Lexer) NextToken() token.Token {
 		} else {
 			tok = newToken(token.GT, l.ch)
 		}
+	case '&':
+		tok = l.makeTwoCharToken('&', token.BITWISEAND, token.AND)
+	case '|':
+		tok = l.makeTwoCharToken('|', token.BITWISEOR, token.OR)
 	case '=':
 		tok = l.makeTwoCharToken('=', token.ASSIGN, token.EQ)
 	case ';':

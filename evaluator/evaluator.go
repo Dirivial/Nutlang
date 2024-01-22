@@ -449,13 +449,35 @@ func evalInfixExpression(
 		return newError("type mismatch: %s %s %s",
 			left.Type(), operator, right.Type())
 
+	case operator == "&&":
+		return evalBooleanInfixExpression(operator, left, right)
+	case operator == "||":
+		return evalBooleanInfixExpression(operator, left, right)
+
 		// Pointer comparison, should be last.
 	case operator == "==":
 		return nativeBoolToBooleanObject(left == right)
-
 	case operator == "!=":
 		return nativeBoolToBooleanObject(left != right)
 
+	default:
+		return newError("unknown operator: %s %s %s",
+			left.Type(), operator, right.Type())
+	}
+}
+
+func evalBooleanInfixExpression(
+	operator string,
+	left, right object.Object,
+) object.Object {
+	leftVal := left.(*object.Boolean).Value
+	rightVal := right.(*object.Boolean).Value
+
+	switch operator {
+	case "&&":
+		return nativeBoolToBooleanObject(leftVal && rightVal)
+	case "||":
+		return nativeBoolToBooleanObject(leftVal || rightVal)
 	default:
 		return newError("unknown operator: %s %s %s",
 			left.Type(), operator, right.Type())

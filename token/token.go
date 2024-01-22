@@ -37,6 +37,9 @@ const (
 	AND    = "&&"
 	OR     = "||"
 
+	BITWISEAND = "&"
+	BITWISEOR  = "|"
+
 	// Delimiters
 	COMMA     = ","
 	DOT       = "."
