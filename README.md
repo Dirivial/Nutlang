@@ -59,7 +59,7 @@ but still somewhat complete language
 - [x] Remove
 - [x] Shift
 - [x] Unshift
-- [ ] includes
+- [x] includes
 
 #### Integers/Floats
 
@@ -74,4 +74,4 @@ but still somewhat complete language
 - [ ] trim
 - [ ] startsWith
 - [ ] endsWith
-- [ ] includes
+- [x] includes

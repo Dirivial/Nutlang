@@ -4,6 +4,7 @@ import (
 	"Nutlang/object"
 	"fmt"
 	mrand "math/rand"
+	"strings"
 )
 
 var builtins = map[string]*object.Builtin{
@@ -332,6 +333,50 @@ var builtins = map[string]*object.Builtin{
 				return &object.Array{Elements: newElements}
 			}
 			return NULL
+		},
+	},
+	"includes": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=2",
+					len(args))
+			}
+
+			switch arg := args[0].(type) {
+			case *object.Array:
+				switch arg2 := args[1].(type) {
+				case *object.Integer:
+					for _, v := range arg.Elements {
+						if v.Type() == object.INTEGER_OBJ && v.(*object.Integer).Value == arg2.Value {
+							return &object.Boolean{Value: true}
+						}
+					}
+				case *object.String:
+					for _, v := range arg.Elements {
+						if v.Type() == object.STRING_OBJ && v.(*object.String).Value == arg2.Value {
+							return &object.Boolean{Value: true}
+						}
+					}
+				default:
+					return newError("argument 2 to `includes` not supported, got %s",
+						args[1].Type())
+				}
+			case *object.String:
+
+				switch arg2 := args[1].(type) {
+				case *object.String:
+					if strings.Contains(arg.Value, arg2.Value) {
+						return &object.Boolean{Value: true}
+					}
+				default:
+					return newError("argument 2 to `includes` not supported, got %s",
+						args[1].Type())
+				}
+			default:
+				return newError("argument 1 to `includes` not supported, got %s",
+					args[0].Type())
+			}
+			return &object.Boolean{Value: false}
 		},
 	},
 	"puts": {
