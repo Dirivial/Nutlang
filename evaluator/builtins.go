@@ -197,6 +197,71 @@ var builtins = map[string]*object.Builtin{
 		},
 	},
 
+	"unshift": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=1",
+					len(args))
+			}
+			if args[0].Type() != object.ARRAY_OBJ {
+				return newError("argument 1 to `unshift` must be ARRAY, got %s",
+					args[0].Type())
+			}
+
+			arr := args[0].(*object.Array)
+			length := len(arr.Elements)
+
+			if length == 0 {
+				return &object.Array{Elements: []object.Object{}}
+			}
+			if length > 0 {
+				switch arg2 := args[1].(type) {
+				case *object.Integer:
+
+					newElements := make([]object.Object, length+1)
+					copy(newElements[1:], arr.Elements)
+					newElements[0] = arg2
+
+					return &object.Array{Elements: newElements}
+				case *object.Float:
+
+					newElements := make([]object.Object, length+1)
+					copy(newElements[1:], arr.Elements)
+					newElements[0] = arg2
+
+					return &object.Array{Elements: newElements}
+				case *object.Boolean:
+					newElements := make([]object.Object, length+1)
+					copy(newElements[1:], arr.Elements)
+					newElements[0] = arg2
+
+					return &object.Array{Elements: newElements}
+				case *object.String:
+
+					newElements := make([]object.Object, length+1)
+					copy(newElements[1:], arr.Elements)
+					newElements[0] = arg2
+
+					return &object.Array{Elements: newElements}
+				case *object.Array:
+
+					length2 := len(arg2.Elements)
+					if length2 == 0 {
+						return arr
+					}
+					newElements := make([]object.Object, length+length2)
+					copy(newElements[length2:], arr.Elements)
+					copy(newElements[:length2], arg2.Elements)
+
+					return &object.Array{Elements: newElements}
+				default:
+					return newError("argument 2 to `unshift` not supported, got %s",
+						args[1].Type())
+				}
+			}
+			return NULL
+		},
+	},
 	"shift": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 1 {
@@ -204,7 +269,7 @@ var builtins = map[string]*object.Builtin{
 					len(args))
 			}
 			if args[0].Type() != object.ARRAY_OBJ {
-				return newError("argument to `pop` must be ARRAY, got %s",
+				return newError("argument to `shift` must be ARRAY, got %s",
 					args[0].Type())
 			}
 
