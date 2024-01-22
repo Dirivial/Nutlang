@@ -46,11 +46,15 @@ but still somewhat complete language
   - [x] Hashes
   - [x] Integers
 - [ ] File IO
+  - [ ] Open files
+  - [ ] Close files
+  - [ ] Read file content
+  - [ ] Write to file
 - [x] Floats
 - [ ] structs/types (some way to group items together)
 - [x] <= and >=
 - [x] for(& while) loop
-- [ ] Scan/input/read (input from STDIN)
+- [ ] Get input from STDIN (scanf like function?)
 
 #### Arrays
 
