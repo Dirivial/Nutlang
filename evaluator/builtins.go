@@ -184,9 +184,6 @@ var builtins = map[string]*object.Builtin{
 			arr := args[0].(*object.Array)
 			length := len(arr.Elements)
 
-			if length == 0 {
-				return &object.Array{Elements: []object.Object{}}
-			}
 			if length > 0 {
 
 				newElements := make([]object.Object, length-1)
@@ -322,9 +319,6 @@ var builtins = map[string]*object.Builtin{
 			arr := args[0].(*object.Array)
 			length := len(arr.Elements)
 
-			if length == 0 {
-				return &object.Array{Elements: []object.Object{}}
-			}
 			if length > 0 {
 
 				newElements := make([]object.Object, length-1)
@@ -380,6 +374,30 @@ var builtins = map[string]*object.Builtin{
 		},
 	},
 
+	"trim": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=2",
+					len(args))
+			}
+
+			switch arg := args[0].(type) {
+			case *object.String:
+
+				switch arg2 := args[1].(type) {
+				case *object.String:
+					result := strings.Trim(arg.Value, arg2.Value)
+					return &object.String{Value: result}
+				default:
+					return newError("argument 2 to `trim` must be STRING, got %s",
+						args[1].Type())
+				}
+			default:
+				return newError("argument 1 to `trim` must be STRING, got %s",
+					args[0].Type())
+			}
+		},
+	},
 	"split": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 {
