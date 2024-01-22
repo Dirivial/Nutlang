@@ -70,7 +70,7 @@ but still somewhat complete language
 
 #### Strings
 
-- [ ] split
+- [x] split
 - [ ] trim
 - [ ] startsWith
 - [ ] endsWith
