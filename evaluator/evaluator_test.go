@@ -591,6 +591,14 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`includes(["ab", "abc", "a"], "abc")`, true},
 		{`includes(["ab", "abc", "a"], "d")`, false},
 		{`includes(["ab", "abc", "a"], "abd")`, false},
+
+		{`split()`, "wrong number of arguments. got=0, want=2"},
+		{`split("")`, "wrong number of arguments. got=1, want=2"},
+		{`split(1, 2)`, "argument 1 to `split` must be STRING, got INTEGER"},
+		{`split("a", 2)`, "argument 2 to `split` must be STRING, got INTEGER"},
+		{`split("a", "a")`, []string{"a", ""}},
+		{`split("bab", "a")`, []string{"ba", "b"}},
+		{`split("a,b,c", ",")`, []string{"a,", "b,", "c"}},
 	}
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)

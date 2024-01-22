@@ -379,6 +379,35 @@ var builtins = map[string]*object.Builtin{
 			return &object.Boolean{Value: false}
 		},
 	},
+
+	"split": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=2",
+					len(args))
+			}
+
+			switch arg := args[0].(type) {
+			case *object.String:
+
+				switch arg2 := args[1].(type) {
+				case *object.String:
+					result := strings.Split(arg.Value, arg2.Value)
+					elements := make([]object.Object, len(result))
+					for i := range result {
+						elements[i] = &object.String{Value: result[i]}
+					}
+					return &object.Array{Elements: elements}
+				default:
+					return newError("argument 2 to `split` must be STRING, got %s",
+						args[1].Type())
+				}
+			default:
+				return newError("argument 1 to `split` must be STRING, got %s",
+					args[0].Type())
+			}
+		},
+	},
 	"puts": {
 		Fn: func(args ...object.Object) object.Object {
 			for _, arg := range args {
