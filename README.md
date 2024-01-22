@@ -71,7 +71,7 @@ but still somewhat complete language
 #### Strings
 
 - [x] split
-- [ ] trim
+- [x] trim
 - [ ] startsWith
 - [ ] endsWith
 - [x] includes
