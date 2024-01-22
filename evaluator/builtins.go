@@ -200,7 +200,7 @@ var builtins = map[string]*object.Builtin{
 	"unshift": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 {
-				return newError("wrong number of arguments. got=%d, want=1",
+				return newError("wrong number of arguments. got=%d, want=2",
 					len(args))
 			}
 			if args[0].Type() != object.ARRAY_OBJ {
@@ -217,6 +217,13 @@ var builtins = map[string]*object.Builtin{
 			if length > 0 {
 				switch arg2 := args[1].(type) {
 				case *object.Integer:
+
+					newElements := make([]object.Object, length+1)
+					copy(newElements[1:], arr.Elements)
+					newElements[0] = arg2
+
+					return &object.Array{Elements: newElements}
+				case *object.Hash:
 
 					newElements := make([]object.Object, length+1)
 					copy(newElements[1:], arr.Elements)

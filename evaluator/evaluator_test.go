@@ -548,6 +548,15 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`pop(1)`, "argument to `pop` must be ARRAY, got INTEGER"},
 		{`pop()`, "wrong number of arguments. got=0, want=1"},
 		{`pop([], 1)`, "wrong number of arguments. got=2, want=1"},
+		{`shift()`, "wrong number of arguments. got=0, want=1"},
+		{`shift(1)`, "argument to `shift` must be ARRAY, got INTEGER"},
+		{`shift([1], 2)`, "wrong number of arguments. got=2, want=1"},
+		{`shift([1, 2])`, []int{2}},
+		{`shift([])`, nil},
+		{`unshift([1, 2], 3)`, []int{3, 1, 2}},
+		{`unshift()`, "wrong number of arguments. got=0, want=2"},
+		{`unshift([1])`, "wrong number of arguments. got=1, want=2"},
+		{`unshift(1, 2)`, "argument 1 to `unshift` must be ARRAY, got INTEGER"},
 	}
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)
