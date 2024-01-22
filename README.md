@@ -69,8 +69,6 @@ but still somewhat complete language
 - [x] Min
 - [x] Max
 - [ ] Modulo
-- [x] &&
-- [x] ||
 
 #### Strings
 
@@ -80,3 +78,8 @@ but still somewhat complete language
 - [ ] endsWith
 - [x] includes
 - [x] escaped chars
+
+#### Booleans
+
+- [x] &&
+- [x] ||
