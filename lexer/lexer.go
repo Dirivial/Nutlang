@@ -1,6 +1,9 @@
 package lexer
 
-import "Nutlang/token"
+import (
+	"Nutlang/token"
+	"strings"
+)
 
 type Lexer struct {
 	input        string
@@ -127,14 +130,48 @@ func (l *Lexer) NextToken() token.Token {
 }
 
 func (l *Lexer) readString() string {
-	position := l.position + 1
+	/*
+		position := l.position + 1
+		for {
+			l.readChar()
+			if l.ch == '"' || l.ch == 0 {
+				break
+			}
+		}
+		return l.input[position:l.position]
+	*/
+	b := strings.Builder{}
 	for {
 		l.readChar()
-		if l.ch == '"' || l.ch == 0 {
-			break
+
+		// Support some basic escapes like \"
+		if l.ch == '\\' {
+			switch l.peekChar() {
+			case '"':
+				b.WriteByte('"')
+			case 'n':
+				b.WriteByte('\n')
+			case 'r':
+				b.WriteByte('\r')
+			case 't':
+				b.WriteByte('\t')
+			case '\\':
+				b.WriteByte('\\')
+			}
+
+			// Skip over the '\\' and the matched single escape char
+			l.readChar()
+			continue
+		} else {
+			if l.ch == '"' || l.ch == 0 {
+				break
+			}
 		}
+
+		b.WriteByte(l.ch)
 	}
-	return l.input[position:l.position]
+
+	return b.String()
 }
 
 func (l *Lexer) readIdentifier() string {
