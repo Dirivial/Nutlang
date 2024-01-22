@@ -577,6 +577,20 @@ func TestBuiltinFunctions(t *testing.T) {
 		{`max()`, "wrong number of arguments. got=0, want=2"},
 		{`max([1], 2)`, "argument 1 to `max` must be INTEGER, got ARRAY"},
 		{`max(1, [1])`, "argument 2 to `max` must be INTEGER, got ARRAY"},
+
+		{`includes()`, "wrong number of arguments. got=0, want=2"},
+		{`includes(1, 2)`, "argument 1 to `includes` not supported, got INTEGER"},
+		{`includes([1], [2])`, "argument 2 to `includes` not supported, got ARRAY"},
+		{`includes("abc", "a")`, true},
+		{`includes("abc", "c")`, true},
+		{`includes("abc", "d")`, false},
+		{`includes([1, 2, 3], 1)`, true},
+		{`includes([1, 2, 3], 3)`, true},
+		{`includes([1, 2, 3], 4)`, false},
+		{`includes(["ab", "abc", "a"], "a")`, true},
+		{`includes(["ab", "abc", "a"], "abc")`, true},
+		{`includes(["ab", "abc", "a"], "d")`, false},
+		{`includes(["ab", "abc", "a"], "abd")`, false},
 	}
 	for _, tt := range tests {
 		evaluated := testEval(tt.input)

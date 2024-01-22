@@ -59,6 +59,7 @@ but still somewhat complete language
 - [x] Remove
 - [x] Shift
 - [x] Unshift
+- [ ] includes
 
 #### Integers/Floats
 
