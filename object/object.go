@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"hash/fnv"
+	"os"
 	"strings"
 )
 
@@ -25,6 +26,7 @@ const (
 	BUILTIN_OBJ      = "BUILTIN"
 	ARRAY_OBJ        = "ARRAY"
 	HASH_OBJ         = "HASH"
+	FD_OBJ           = "FD"
 )
 
 type Object interface {
@@ -153,6 +155,14 @@ func (f *Function) Inspect() string {
 
 	return out.String()
 }
+
+// FD
+type FileDescriptor struct {
+	Value *os.File
+}
+
+func (f *FileDescriptor) Inspect() string  { return "fd" }
+func (f *FileDescriptor) Type() ObjectType { return FD_OBJ }
 
 // FLOAT
 type Float struct {
