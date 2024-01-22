@@ -197,6 +197,44 @@ var builtins = map[string]*object.Builtin{
 		},
 	},
 
+	"remove": {
+		Fn: func(args ...object.Object) object.Object {
+			if len(args) != 2 {
+				return newError("wrong number of arguments. got=%d, want=2",
+					len(args))
+			}
+			if args[0].Type() != object.ARRAY_OBJ {
+				return newError("argument 1 to `remove` must be ARRAY, got %s",
+					args[0].Type())
+			}
+
+			arr := args[0].(*object.Array)
+			length := len(arr.Elements)
+
+			if length == 0 {
+				return &object.Array{Elements: []object.Object{}}
+			}
+			if length > 0 {
+				switch arg2 := args[1].(type) {
+				case *object.Integer:
+
+					if int(arg2.Value) >= length {
+						return newError("index %d out of bounds in array of length %d", arg2.Value, length)
+					}
+
+					newElements := make([]object.Object, length-1)
+					copy(newElements[0:arg2.Value], arr.Elements[0:arg2.Value])
+					copy(newElements[arg2.Value:], arr.Elements[arg2.Value+1:])
+
+					return &object.Array{Elements: newElements}
+				default:
+					return newError("argument 2 to `remove` must be INTEGER, got %s",
+						args[1].Type())
+				}
+			}
+			return NULL
+		},
+	},
 	"unshift": {
 		Fn: func(args ...object.Object) object.Object {
 			if len(args) != 2 {

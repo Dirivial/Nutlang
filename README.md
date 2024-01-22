@@ -56,7 +56,7 @@ but still somewhat complete language
 
 - [x] Pop
 - [ ] Insert
-- [ ] Remove
+- [x] Remove
 - [x] Shift
 - [x] Unshift
 
