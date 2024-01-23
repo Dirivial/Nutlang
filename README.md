@@ -68,7 +68,7 @@ but still somewhat complete language
 - [x] Random
 - [x] Min
 - [x] Max
-- [ ] Modulo
+- [x] Modulo
 
 #### Strings
 
